@@ -8,7 +8,6 @@ namespace BattleShip
     public class BattleShipUI
     {
         private const int CONSOLE_CELL_WIDTH = 5;
-        private const int COORDINATES_LENGTH = 2;
         private const int INDEX_OUTSIDE_OF_GRID = -1;
         private const string TILE_UNKNOWN = "?";
         private const string TILE_HIT = "X";
