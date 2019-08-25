@@ -24,6 +24,7 @@ namespace BattleShip.GameLogic.Tests
             
             Assert.NotNull(battleShipGame.Grid);
             Assert.NotNull(battleShipGame.RandomGenerator);
+            Assert.NotNull(battleShipGame.Ships);
         }
 
         [Fact]
@@ -43,7 +44,7 @@ namespace BattleShip.GameLogic.Tests
                 .Returns(1);
             
             var battleShipGame = new BattleShipGame(GetGrid(), randomGeneratorMock.Object);
-            battleShipGame.GenerateRandomShip(BATTLESHIP_SIZE);
+            battleShipGame.GenerateRandomShipPositions(new Ship(BATTLESHIP_SIZE, ShipType.BattleShip));
             
             Assert.True(battleShipGame.Grid.Matrix[1, 1]);
             Assert.True(battleShipGame.Grid.Matrix[1, 2]);
@@ -67,7 +68,7 @@ namespace BattleShip.GameLogic.Tests
                 .Returns(1);
             
             var battleShipGame = new BattleShipGame(GetGrid(), randomGeneratorMock.Object);
-            battleShipGame.GenerateRandomShip(BATTLESHIP_SIZE);
+            battleShipGame.GenerateRandomShipPositions(new Ship(BATTLESHIP_SIZE, ShipType.BattleShip));
             
             Assert.True(battleShipGame.Grid.Matrix[1, 1]);
             Assert.True(battleShipGame.Grid.Matrix[2, 1]);
@@ -91,15 +92,28 @@ namespace BattleShip.GameLogic.Tests
                 .Returns(1).Returns(1);
 
             var grid = GetGrid();
-            grid.AddShip(new Point(1, 1), new Point(1, 5));
+            var ship = new Ship(BATTLESHIP_SIZE, ShipType.BattleShip);
+            ship.SetPositions(new Point(1, 1), new Point(1, 5));
+            grid.AddShip(ship);
             var battleShipGame = new BattleShipGame(grid, randomGeneratorMock.Object);
-            battleShipGame.GenerateRandomShip(5);
+            battleShipGame.GenerateRandomShipPositions(new Ship(BATTLESHIP_SIZE, ShipType.BattleShip));
 
             Assert.True(battleShipGame.Grid.Matrix[2, 1]);
             Assert.True(battleShipGame.Grid.Matrix[3, 1]);
             Assert.True(battleShipGame.Grid.Matrix[4, 1]);
             Assert.True(battleShipGame.Grid.Matrix[5, 1]);
             Assert.True(battleShipGame.Grid.Matrix[6, 1]);
+        }
+
+        [Fact]
+        public void Can_Add_Ship()
+        {
+            var ship = new Ship(DESTROYER_SIZE, ShipType.Destroyer);
+            var battleShipGame = new BattleShipGame(GetGrid(), new Mock<IRandomGenerator>().Object);
+
+            battleShipGame.AddShip(ship);
+
+            Assert.Single(battleShipGame.Ships);
         }
 
         [Fact]
@@ -126,6 +140,9 @@ namespace BattleShip.GameLogic.Tests
                 .Returns(5);
             
             var battleShipGame = new BattleShipGame(GetGrid(), randomGeneratorMock.Object);
+            battleShipGame.AddShip(new Ship(BATTLESHIP_SIZE, ShipType.BattleShip));
+            battleShipGame.AddShip(new Ship(DESTROYER_SIZE, ShipType.Destroyer));
+            battleShipGame.AddShip(new Ship(DESTROYER_SIZE, ShipType.Destroyer));
             battleShipGame.NewGame();
             
             // Battle Ship
@@ -158,7 +175,9 @@ namespace BattleShip.GameLogic.Tests
         public void Can_Hit_Ship(string coordinate, bool expectedResult)
         {
             var grid = GetGrid();
-            grid.AddShip(new Point(1, 1), new Point(1, 5));
+            var ship = new Ship(BATTLESHIP_SIZE, ShipType.BattleShip);
+            ship.SetPositions(new Point(1, 1), new Point(1, 5));
+            grid.AddShip(ship);
             var battleShipGame = new BattleShipGame(grid, new Mock<IRandomGenerator>().Object);
 
             var result = battleShipGame.Hit(coordinate);

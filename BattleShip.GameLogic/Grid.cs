@@ -27,37 +27,37 @@ namespace BattleShip.GameLogic
             => x >= 0 && x < Rows && 
                y >= 0 && y < Columns;
 
-        public int AddShip(Point startingPosition, Point endingPosition)
+        public int AddShip(IShip ship)
         {
-            var isHorizontal = startingPosition.X == endingPosition.X;
-            var isVertical = startingPosition.Y == endingPosition.Y;
+            var isHorizontal = ship.StartingPosition.X == ship.EndingPosition.X;
+            var isVertical = ship.StartingPosition.Y == ship.EndingPosition.Y;
 
             if (!isHorizontal && !isVertical)
                 return -1;
                 
             if (isHorizontal)
             {
-                var startingY = Math.Min(startingPosition.Y, endingPosition.Y);
-                var endingY = Math.Max(startingPosition.Y, endingPosition.Y);
+                var startingY = Math.Min(ship.StartingPosition.Y, ship.EndingPosition.Y);
+                var endingY = Math.Max(ship.StartingPosition.Y, ship.EndingPosition.Y);
 
                 for (var j = startingY; j <= endingY; j++)
-                    if (!IsValidIndex(startingPosition.X, j) || Matrix[startingPosition.X, j])
+                    if (!IsValidIndex(ship.StartingPosition.X, j) || Matrix[ship.StartingPosition.X, j])
                         return -1;
 
                 for (var j = startingY; j <= endingY; j++)
-                    Matrix[startingPosition.X, j] = true;
+                    Matrix[ship.StartingPosition.X, j] = true;
             }
             else
             {
-                var startingX = Math.Min(startingPosition.X, endingPosition.X);
-                var endingX = Math.Max(startingPosition.X, endingPosition.X);
+                var startingX = Math.Min(ship.StartingPosition.X, ship.EndingPosition.X);
+                var endingX = Math.Max(ship.StartingPosition.X, ship.EndingPosition.X);
                 
                 for (var i = startingX; i <= endingX; i++)
-                    if (!IsValidIndex(i, startingPosition.Y) || Matrix[i, startingPosition.Y])
+                    if (!IsValidIndex(i, ship.StartingPosition.Y) || Matrix[i, ship.StartingPosition.Y])
                         return -1;
                 
                 for (var i = startingX; i <= endingX; i++)
-                    Matrix[i, startingPosition.Y] = true;
+                    Matrix[i, ship.StartingPosition.Y] = true;
             }
 
             AreAllShipsDead = false;
