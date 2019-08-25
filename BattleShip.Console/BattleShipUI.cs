@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using BattleShip.GameLogic;
 
 namespace BattleShip
@@ -69,13 +70,16 @@ namespace BattleShip
             Console.Write("Enter coordinates: ");
 
             var coordinates = Console.ReadLine();
-            if (coordinates.Length == COORDINATES_LENGTH)
+            if (IsCoordinatesValid(coordinates))
                 Status = BattleShipGame.Hit(coordinates)
                     ? "You hit a ship!"
                     : "You missed!";
             else
                 Status = "Invalid Coordinates";
         }
+
+        private static bool IsCoordinatesValid(string coordinates) 
+            => coordinates.Length == 2 && char.IsLetter(coordinates.First()) && char.IsDigit(coordinates.Last());
 
         private void DisplayStatus()
         {

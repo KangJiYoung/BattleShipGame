@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -13,41 +14,30 @@ namespace BattleShip.GameLogic
         {
             Grid = grid;
             RandomGenerator = randomGenerator;
-            
+
             Ships = new List<IShip>();
         }
 
         public void GenerateRandomShipPositions(IShip ship)
         {
+            if (ship == null)
+                throw new ArgumentNullException(nameof(ship));
+
             bool result;
             do
             {
                 Point startingPosition;
                 Point endingPosition;
-            
+
                 var isHorizontal = RandomGenerator.GetRandomBoolean();
                 if (isHorizontal)
                     GenerateHorizontalPositions(ship, out startingPosition, out endingPosition);
                 else
                     GenerateVerticalPositions(ship, out startingPosition, out endingPosition);
-                
+
                 ship.SetPositions(startingPosition, endingPosition);
                 result = Grid.AddShip(ship);
             } while (!result);
-        }
-
-        private void GenerateVerticalPositions(IShip ship, out Point startingPosition, out Point endingPosition)
-        {
-            startingPosition = new Point
-            {
-                X = RandomGenerator.GetRandomNumber(0, Grid.Rows - ship.Size),
-                Y = RandomGenerator.GetRandomNumber(0, Grid.Columns)
-            };
-            endingPosition = new Point
-            {
-                X = startingPosition.X + ship.Size - 1,
-                Y = startingPosition.Y
-            };
         }
 
         private void GenerateHorizontalPositions(IShip ship, out Point startingPosition, out Point endingPosition)
@@ -64,6 +54,20 @@ namespace BattleShip.GameLogic
             };
         }
 
+        private void GenerateVerticalPositions(IShip ship, out Point startingPosition, out Point endingPosition)
+        {
+            startingPosition = new Point
+            {
+                X = RandomGenerator.GetRandomNumber(0, Grid.Rows - ship.Size),
+                Y = RandomGenerator.GetRandomNumber(0, Grid.Columns)
+            };
+            endingPosition = new Point
+            {
+                X = startingPosition.X + ship.Size - 1,
+                Y = startingPosition.Y
+            };
+        }
+
         public void NewGame()
         {
             foreach (var ship in Ships)
@@ -72,6 +76,12 @@ namespace BattleShip.GameLogic
 
         public bool Hit(string coordinates)
         {
+            if (string.IsNullOrWhiteSpace(coordinates))
+                throw new ArgumentNullException(nameof(coordinates));
+
+            if (coordinates.Length != 2)
+                throw new ArgumentException("Coordinates must have a length of 2 characters", nameof(coordinates));
+
             var x = CoordinateParser.Parse(coordinates[0]);
             var parseResult = int.TryParse(coordinates[1].ToString(), out var y);
 
@@ -80,6 +90,9 @@ namespace BattleShip.GameLogic
 
         public void AddShip(IShip ship)
         {
+            if (ship == null)
+                throw new ArgumentNullException(nameof(ship));
+
             Ships.Add(ship);
         }
     }

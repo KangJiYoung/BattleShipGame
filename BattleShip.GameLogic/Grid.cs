@@ -15,6 +15,11 @@ namespace BattleShip.GameLogic
 
         public Grid(int rows, int columns)
         {
+            if (rows <= 0) 
+                throw new ArgumentOutOfRangeException(nameof(rows));
+            if (columns <= 0) 
+                throw new ArgumentOutOfRangeException(nameof(columns));
+
             Rows = rows;
             Columns = columns;
 
@@ -29,6 +34,9 @@ namespace BattleShip.GameLogic
 
         public bool AddShip(IShip ship)
         {
+            if (ship == null) 
+                throw new ArgumentNullException(nameof(ship));
+            
             var tiles = GetShipTiles(ship);
             if (!tiles.Any())
                 return false;

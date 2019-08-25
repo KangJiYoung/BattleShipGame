@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel;
 using System.Drawing;
 
 namespace BattleShip.GameLogic
@@ -11,6 +13,11 @@ namespace BattleShip.GameLogic
 
         public Ship(int size, ShipType shipType)
         {
+            if (size <= 0) 
+                throw new ArgumentOutOfRangeException(nameof(size));
+            if (!Enum.IsDefined(typeof(ShipType), shipType))
+                throw new InvalidEnumArgumentException(nameof(shipType), (int) shipType, typeof(ShipType));
+
             Size = size;
             ShipType = shipType;
         }
