@@ -7,9 +7,35 @@ A single-player game of BattleShip. The computer generates randomly 3 ships (2 s
 - Linux/macOS/Windows
 
 ## Building
+Clone the repository
 ```shell
 git clone https://github.com/KangJiYoung/BattleShipGame.git
+```
+Change directory to main folder
+```shell
 cd BattleShip.Console
+```
+Restore the packages
+```shell
 dotnet restore
+```
+Run the application
+```shell
 dotnet run
 ```
+
+## Releases
+You can also use the existing releases
+- For windows: https://github.com/KangJiYoung/BattleShipGame/releases/tag/1.0.0%40win-x64
+  - Download the ZIP Folder
+  - Unzip it
+  - Go to publish folder
+  - Execute BattleShip.Console.exe
+- For osx: https://github.com/KangJiYoung/BattleShipGame/releases/tag/1.0.0%40osx
+  - Download the ZIP Folder
+  - Unzip it
+  - Go to publish folder using a terminal
+  - Execute the command
+  ```
+   ./BattleShip.Console
+  ```
