@@ -102,7 +102,7 @@ namespace BattleShip.GameLogic.Tests
         [InlineData(0, 11, 0, 0)]
         [InlineData(-1, 0, 0, 0)]
         [InlineData(11, 0, 0, 0)]
-        public void Can_Return_Minus_One_On_Invalid_Coordinates(int x1, int y1, int x2, int y2)
+        public void Can_Return_False_On_Invalid_Coordinates(int x1, int y1, int x2, int y2)
         {
             var grid = new Grid(ROWS, COLUMNS);
             var ship = new Ship(SHIP_SIZE, SHIP_TYPE);
@@ -110,13 +110,13 @@ namespace BattleShip.GameLogic.Tests
 
             var result = grid.AddShip(ship);
             
-            Assert.Equal(-1, result);
+            Assert.False(result);
         }
 
         [Theory]
         [InlineData(0, 0, 1, 1)]
         [InlineData(3, 3, 6, 8)]
-        public void Can_Return_Minus_One_If_Ship_Is_Not_Horizontal_Or_Vertical(int x1, int y1, int x2, int y2)
+        public void Can_Return_False_If_Ship_Is_Not_Horizontal_Or_Vertical(int x1, int y1, int x2, int y2)
         {
             var grid = new Grid(ROWS, COLUMNS);
             var ship = new Ship(SHIP_SIZE, SHIP_TYPE);
@@ -124,11 +124,11 @@ namespace BattleShip.GameLogic.Tests
 
             var result = grid.AddShip(ship);
             
-            Assert.Equal(-1, result);
+            Assert.False(result);
         }
 
         [Fact]
-        public void Can_Return_Minus_One_If_Adding_Ship_On_Top_Of_Another_Ship()
+        public void Can_Return_False_If_Adding_Ship_On_Top_Of_Another_Ship()
         {
             var grid = new Grid(ROWS, COLUMNS);
             var ship = new Ship(SHIP_SIZE, SHIP_TYPE);
@@ -139,7 +139,7 @@ namespace BattleShip.GameLogic.Tests
             invalidShip.SetPositions(new Point(0, 1), new Point(0, 3));
             var result = grid.AddShip(invalidShip);
             
-            Assert.Equal(-1, result);
+            Assert.False(result);
         }
 
         [Fact]

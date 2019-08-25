@@ -19,7 +19,7 @@ namespace BattleShip.GameLogic
 
         public void GenerateRandomShipPositions(IShip ship)
         {
-            int result;
+            bool result;
             do
             {
                 Point startingPosition;
@@ -33,7 +33,7 @@ namespace BattleShip.GameLogic
                 
                 ship.SetPositions(startingPosition, endingPosition);
                 result = Grid.AddShip(ship);
-            } while (result == -1);
+            } while (!result);
         }
 
         private void GenerateVerticalPositions(IShip ship, out Point startingPosition, out Point endingPosition)
