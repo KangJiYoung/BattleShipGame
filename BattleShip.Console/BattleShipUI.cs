@@ -7,6 +7,7 @@ namespace BattleShip
 {
     public class BattleShipUI
     {
+        private const int COORDINATES_LENGTH = 2;
         private const int CONSOLE_CELL_WIDTH = 5;
         private const int INDEX_OUTSIDE_OF_GRID = -1;
         private const string TILE_UNKNOWN = "?";
@@ -82,7 +83,7 @@ namespace BattleShip
         }
 
         private static bool IsCoordinatesValid(string coordinates) 
-            => coordinates.Length == 2 && char.IsLetter(coordinates.First()) && char.IsDigit(coordinates.Last());
+            => coordinates.Length == COORDINATES_LENGTH && char.IsLetter(coordinates.First()) && char.IsDigit(coordinates.Last());
 
         private void DisplayStatus()
         {
