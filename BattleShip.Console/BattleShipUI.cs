@@ -30,23 +30,7 @@ namespace BattleShip
 
             while (!BattleShipGame.Grid.AreAllShipsDead)
             {
-                for (var i = INDEX_OUTSIDE_OF_GRID; i < BattleShipGame.Grid.Rows; i++)
-                {
-                    for (var j = INDEX_OUTSIDE_OF_GRID; j < BattleShipGame.Grid.Columns; j++)
-                    {
-                        if (IsEmptyCell(i, j))
-                            DrawEmptyCell();
-                        else if (IsFirstColumn(i))
-                            DrawColumnNumbers(j);
-                        else if (IsFirstRow(j))
-                            DrawRowCharacters(i);
-                        else
-                            DrawGrid(i, j);
-                    }
-
-                    Console.WriteLine();
-                }
-
+                DrawGrid();
                 DisplayStatus();
                 HandleCoordinates();
 
@@ -54,6 +38,26 @@ namespace BattleShip
             }
 
             DisplayEndingMessage();
+        }
+
+        private void DrawGrid()
+        {
+            for (var i = INDEX_OUTSIDE_OF_GRID; i < BattleShipGame.Grid.Rows; i++)
+            {
+                for (var j = INDEX_OUTSIDE_OF_GRID; j < BattleShipGame.Grid.Columns; j++)
+                {
+                    if (IsEmptyCell(i, j))
+                        DrawEmptyCell();
+                    else if (IsFirstColumn(i))
+                        DrawColumnNumbers(j);
+                    else if (IsFirstRow(j))
+                        DrawRowCharacters(i);
+                    else
+                        DrawGrid(i, j);
+                }
+
+                Console.WriteLine();
+            }
         }
 
         private void DisplayEndingMessage()

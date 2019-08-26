@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace BattleShip.GameLogic
 {
     public class BattleShipGame
     {
+        private const int COORDINATES_LENGTH = 2;
+        
         public Grid Grid { get; }
         public IRandomGenerator RandomGenerator { get; }
         public IList<IShip> Ships { get; }
@@ -79,11 +82,11 @@ namespace BattleShip.GameLogic
             if (string.IsNullOrWhiteSpace(coordinates))
                 throw new ArgumentNullException(nameof(coordinates));
 
-            if (coordinates.Length != 2)
+            if (coordinates.Length != COORDINATES_LENGTH)
                 throw new ArgumentException("Coordinates must have a length of 2 characters", nameof(coordinates));
 
-            var x = CoordinateParser.Parse(coordinates[0]);
-            var parseResult = int.TryParse(coordinates[1].ToString(), out var y);
+            var x = CoordinateParser.Parse(coordinates.First());
+            var parseResult = int.TryParse(coordinates.Last().ToString(), out var y);
 
             return parseResult && Grid.Hit(x, y);
         }
